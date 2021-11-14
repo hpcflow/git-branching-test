@@ -62,76 +62,85 @@ jobs:
           poetry run cz bump --yes --changelog
 
       - name: Check whether to publish
-        id: check_publish
         run: |
-          [[ `git status`  == *'nothing to commit'* ]] && echo "do_publish=true" >> $GITHUB_ENV || echo "do_publish=''" >> $GITHUB_ENV
+          if [[ `git status`  == *'nothing to commit'* ]]; then
+            echo "do_publish=true" >> $GITHUB_ENV
+            echo "do_publish set to true"
+          else
+            echo "do_publish=false" >> $GITHUB_ENV
+            echo "do_publish set to false"
+          fi
 
-      - name: Push (with tags)
+      - name: "Use flag if true"
         if: env.do_publish
-        run: |
-          git push
-          git push --tags
+        run: echo "do_publish is available and true"
 
-      - name: Build (for PyPI)
-        if: env.do_publish
-        run: |
-          poetry build
+  #     - name: Push (with tags)
+  #       if: env.do_publish
+  #       run: |
+  #         git push
+  #         git push --tags
 
-      - name: Publish (to test PyPI)
-        if: env.do_publish
-        run: |
-          poetry config repositories.test-pypi https://test.pypi.org/legacy/
-          poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
-          poetry publish --repository test-pypi
+  #     - name: Build (for PyPI)
+  #       if: env.do_publish
+  #       run: |
+  #         poetry build
 
-  build-executables:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-2019, ubuntu-18.04, macos-10.15]
-        include:
-          - os: windows-2019
-            executable_ext: .exe
-          - os: ubuntu-18.04
-            executable_ext: ""
-          - os: macos-10.15
-            executable_ext: ""
+  #     - name: Publish (to test PyPI)
+  #       if: env.do_publish ==
+  #       run: |
+  #         poetry config repositories.test-pypi https://test.pypi.org/legacy/
+  #         poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
+  #         poetry publish --repository test-pypi
 
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
+  # build-executables:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-2019, ubuntu-18.04, macos-10.15]
+  #       include:
+  #         - os: windows-2019
+  #           executable_ext: .exe
+  #         - os: ubuntu-18.04
+  #           executable_ext: ""
+  #         - os: macos-10.15
+  #           executable_ext: ""
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Install poetry
-        run: |
-          python -m pip install poetry==1.1.11
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.9
 
-      - name: Configure poetry
-        run: |
-          poetry config virtualenvs.in-project true
+  #     - name: Install poetry
+  #       run: |
+  #         python -m pip install poetry==1.1.11
 
-      - name: Cache the virtualenv
-        uses: actions/cache@v2
-        with:
-          path: ./.venv
-          key: venv-${{ hashFiles('**/poetry.lock') }}
+  #     - name: Configure poetry
+  #       run: |
+  #         poetry config virtualenvs.in-project true
 
-      - name: Install dependencies
-        run: |
-          poetry install
+  #     - name: Cache the virtualenv
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ./.venv
+  #         key: venv-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Build with pyinstaller for ${{matrix.os}}
-        run: |
-          poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
+  #     - name: Install dependencies
+  #       run: |
+  #         poetry install
 
-      - name: Rename executable for ${{matrix.os}}
-        run: |
-          mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+  #     - name: Build with pyinstaller for ${{matrix.os}}
+  #       run: |
+  #         poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
-          path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+  #     - name: Rename executable for ${{matrix.os}}
+  #       run: |
+  #         mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+  #         path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
