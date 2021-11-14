@@ -61,17 +61,20 @@ jobs:
         run: |
           poetry run cz bump --yes --changelog
 
-      - name: Check whether to publish (and push tags)
+      - name: Check whether to publish
         id: check_publish
+        # doesn't work:
         run: |
-          git push --tags
-          var=`git status`
-          echo "::set-output name=do_publish::if [[ $var == *'nothing to commit'* ]]; then echo true; else echo false; fi;"
+          [[ `git status`  == *'nothing to commit'* ]] && do_publish_string="true" || do_publish_string="false"
+          echo do_publish_string
+          echo "::set-output name=do_publish::$do_publish_string"
+          echo ${{ needs.publish.outputs.do_publish }}
 
       - name: Push (with tags)
         if: ${{ needs.publish.outputs.do_publish == true }}
         run: |
           git push
+          git push --tags
 
       - name: Build (for PyPI)
         if: ${{ needs.publish.outputs.do_publish == true }}
