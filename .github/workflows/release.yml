@@ -67,21 +67,23 @@ jobs:
           [[ `git status`  == *'nothing to commit'* ]] && do_publish_string="true" || do_publish_string="false"
           echo $do_publish_string
           echo "::set-output name=do_publish::$do_publish_string"
-          echo ${{ needs.publish.outputs.do_publish }}
+
+      - name: test
+        run: echo ${{ needs.publish.outputs.do_publish }}
 
       - name: Push (with tags)
-        if: ${{ needs.publish.outputs.do_publish == true }}
+        if: ${{ needs.publish.outputs.do_publish == "true" }}
         run: |
           git push
           git push --tags
 
       - name: Build (for PyPI)
-        if: ${{ needs.publish.outputs.do_publish == true }}
+        if: ${{ needs.publish.outputs.do_publish == "true" }}
         run: |
           poetry build
 
       - name: Publish (to test PyPI)
-        if: ${{ needs.publish.outputs.do_publish == true }}
+        if: ${{ needs.publish.outputs.do_publish == "true" }}
         run: |
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
