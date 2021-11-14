@@ -47,6 +47,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git fetch
           git pull
           git status
           git tag --list
@@ -63,17 +64,17 @@ jobs:
 
       - name: Show git status
         run: |
-          var=`git status`
+          var=`git status -sb`
           echo $var
 
       - name: Check whether to publish
         run: |
-          if [[ `git status`  == *'Your branch is ahead'* ]]; then
-            echo "do_publish=false" >> $GITHUB_ENV
-            echo "do_publish set to false"
-          else
+          if [[ `git status -sb`  == *'ahead'* ]]; then
             echo "do_publish=true" >> $GITHUB_ENV
             echo "do_publish set to true"
+          else
+            echo "do_publish=false" >> $GITHUB_ENV
+            echo "do_publish set to false"
           fi
 
       - name: "Use flag if true"
