@@ -65,7 +65,7 @@ jobs:
         id: check_publish
         run: |
           [[ `git status`  == *'nothing to commit'* ]] && do_publish_string="true" || do_publish_string="false"
-          echo do_publish_string
+          echo $do_publish_string
           echo "::set-output name=do_publish::$do_publish_string"
           echo ${{ needs.publish.outputs.do_publish }}
 
