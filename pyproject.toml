@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "git_branching_test"
+version = "0.1.0"
+description = "Test of CI and git branching model."
+authors = ["aplowman <adam.jp@live.co.uk>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.7,<3.11"
+importlib-metadata = "^4.8.2"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.11.1"
+ipykernel = "^6.5.0"
+pytest = "^6.2.5"
+pyinstaller = "^4.7"
+commitizen = "^2.20.0"
+pre-commit = "^2.15.0"
+black = "^21.10b0"
+
+[tool.black]
+target-version = ["py37", "py38"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
