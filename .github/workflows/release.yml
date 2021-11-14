@@ -61,9 +61,13 @@ jobs:
         run: |
           poetry run cz bump --yes --changelog
 
+      - name: Show git status
+        run: |
+          var=`git status`
+          echo $var
+
       - name: Check whether to publish
         run: |
-          echo `git status --porcelain`
           if [[ `git status`  == *'nothing to commit'* ]]; then
             echo "do_publish=false" >> $GITHUB_ENV
             echo "do_publish set to true"
