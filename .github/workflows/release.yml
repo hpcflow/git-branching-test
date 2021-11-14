@@ -74,10 +74,6 @@ jobs:
             echo "publish set to true"
           fi
 
-      - name: "Use flag if true (please)"
-        if: env.publish
-        run: echo "publish is available"
-
       - name: Push (with tags)
         if: env.publish
         run: |
@@ -96,54 +92,54 @@ jobs:
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
           poetry publish --repository test-pypi
 
-  # build-executables:
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-2019, ubuntu-18.04, macos-10.15]
-  #       include:
-  #         - os: windows-2019
-  #           executable_ext: .exe
-  #         - os: ubuntu-18.04
-  #           executable_ext: ""
-  #         - os: macos-10.15
-  #           executable_ext: ""
+  build-executables:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019, ubuntu-18.04, macos-10.15]
+        include:
+          - os: windows-2019
+            executable_ext: .exe
+          - os: ubuntu-18.04
+            executable_ext: ""
+          - os: macos-10.15
+            executable_ext: ""
 
-  #   runs-on: ${{ matrix.os }}
-  #   steps:
-  #     - uses: actions/checkout@v2
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.9
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-  #     - name: Install poetry
-  #       run: |
-  #         python -m pip install poetry==1.1.11
+      - name: Install poetry
+        run: |
+          python -m pip install poetry==1.1.11
 
-  #     - name: Configure poetry
-  #       run: |
-  #         poetry config virtualenvs.in-project true
+      - name: Configure poetry
+        run: |
+          poetry config virtualenvs.in-project true
 
-  #     - name: Cache the virtualenv
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ./.venv
-  #         key: venv-${{ hashFiles('**/poetry.lock') }}
+      - name: Cache the virtualenv
+        uses: actions/cache@v2
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('**/poetry.lock') }}
 
-  #     - name: Install dependencies
-  #       run: |
-  #         poetry install
+      - name: Install dependencies
+        run: |
+          poetry install
 
-  #     - name: Build with pyinstaller for ${{matrix.os}}
-  #       run: |
-  #         poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
+      - name: Build with pyinstaller for ${{matrix.os}}
+        run: |
+          poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
 
-  #     - name: Rename executable for ${{matrix.os}}
-  #       run: |
-  #         mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+      - name: Rename executable for ${{matrix.os}}
+        run: |
+          mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
 
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
-  #         path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+          path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
