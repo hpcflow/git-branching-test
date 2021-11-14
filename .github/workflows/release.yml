@@ -70,14 +70,14 @@ jobs:
         run: |
           if [[ `git status`  == *'nothing to commit'* ]]; then
             echo "do_publish=false" >> $GITHUB_ENV
-            echo "do_publish set to true"
+            echo "do_publish set to false"
           else
             echo "do_publish=true" >> $GITHUB_ENV
-            echo "do_publish set to false"
+            echo "do_publish set to true"
           fi
 
       - name: "Use flag if true"
-        if: env.do_publish
+        if: env.do_publish == true
         run: echo "do_publish is available and true"
 
   #     - name: Push (with tags)
