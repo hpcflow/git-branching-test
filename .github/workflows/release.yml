@@ -65,8 +65,7 @@ jobs:
         id: check_publish
         run: |
           [[ `git status`  == *'nothing to commit'* ]] && echo "do_publish=true" >> $GITHUB_ENV || echo "do_publish=false" >> $GITHUB_ENV
-          echo "do_publish?"
-          echo ${{ env.do_publish }}
+          echo $GITHUB_ENV
 
       - name: Push (with tags)
         if: env.do_publish
