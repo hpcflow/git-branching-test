@@ -78,23 +78,23 @@ jobs:
         if: env.publish
         run: echo "publish is available"
 
-  #     - name: Push (with tags)
-  #       if: env.do_publish == true
-  #       run: |
-  #         git push
-  #         git push --tags
+      - name: Push (with tags)
+        if: env.do_publish
+        run: |
+          git push
+          git push --tags
 
-  #     - name: Build (for PyPI)
-  #       if: env.do_publish == true
-  #       run: |
-  #         poetry build
+      - name: Build (for PyPI)
+        if: env.do_publish
+        run: |
+          poetry build
 
-  #     - name: Publish (to test PyPI)
-  #       if: env.do_publish == true
-  #       run: |
-  #         poetry config repositories.test-pypi https://test.pypi.org/legacy/
-  #         poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
-  #         poetry publish --repository test-pypi
+      - name: Publish (to test PyPI)
+        if: env.do_publish
+        run: |
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
+          poetry publish --repository test-pypi
 
   # build-executables:
   #   strategy:
