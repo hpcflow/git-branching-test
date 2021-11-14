@@ -63,11 +63,12 @@ jobs:
 
       - name: Check whether to publish
         run: |
+          echo `git status --porcelain`
           if [[ `git status`  == *'nothing to commit'* ]]; then
-            echo "do_publish=true" >> $GITHUB_ENV
+            echo "do_publish=false" >> $GITHUB_ENV
             echo "do_publish set to true"
           else
-            echo "do_publish=false" >> $GITHUB_ENV
+            echo "do_publish=true" >> $GITHUB_ENV
             echo "do_publish set to false"
           fi
 
