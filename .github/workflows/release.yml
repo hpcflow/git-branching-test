@@ -10,8 +10,6 @@ jobs:
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      do_publish: ${{ steps.check_publish.outputs.do_publish }}
     steps:
       - uses: actions/checkout@v2
         with:
