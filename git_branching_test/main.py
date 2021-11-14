@@ -1,2 +1,2 @@
-def hello(name, number=9):
+def hello(name, number=10):
     return f"hello {name}!" * number
