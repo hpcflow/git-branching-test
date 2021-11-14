@@ -74,7 +74,7 @@ jobs:
             echo "publish set to true"
           fi
 
-      - name: "Use flag if true"
+      - name: "Use flag if true (please)"
         if: env.publish
         run: echo "publish is available"
 
