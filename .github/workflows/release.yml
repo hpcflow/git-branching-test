@@ -64,24 +64,26 @@ jobs:
       - name: Check whether to publish
         id: check_publish
         run: |
-          [[ `git status`  == *'nothing to commit'* ]] && echo "do_publish=true" >> $GITHUB_ENV || echo "do_publish=false" >> $GITHUB_ENV
+          [[ `git status`  == *'nothing to commit'* ]] && do_publish_string="true" || do_publish_string=""
+          echo $do_publish_string
+          echo "::set-output name=do_publish::$do_publish_string"
 
       - name: test
-        run: echo ${{ env.do_publish }}
+        run: echo ${{ needs.publish.outputs.do_publish }}
 
       - name: Push (with tags)
-        if: env.do_publish
+        if: ${{ needs.publish.outputs.do_publish }}
         run: |
           git push
           git push --tags
 
       - name: Build (for PyPI)
-        if: env.do_publish
+        if: ${{ needs.publish.outputs.do_publish }}
         run: |
           poetry build
 
       - name: Publish (to test PyPI)
-        if: env.do_publish
+        if: ${{ needs.publish.outputs.do_publish }}
         run: |
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI }}
