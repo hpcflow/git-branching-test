@@ -47,6 +47,7 @@ jobs:
           git config user.email github-actions@github.com
           git pull
           git status
+          git tag --list
 
       - name: Bump version and generate changelog (pre-release)
         if: ${{ github.ref == 'refs/heads/develop' }}
