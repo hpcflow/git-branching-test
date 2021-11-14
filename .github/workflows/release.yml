@@ -68,7 +68,7 @@ jobs:
 
       - name: Check whether to publish
         run: |
-          if [[ `git status`  == *'nothing to commit'* ]]; then
+          if [[ `git status`  == *'Your branch is ahead'* ]]; then
             echo "do_publish=false" >> $GITHUB_ENV
             echo "do_publish set to false"
           else
