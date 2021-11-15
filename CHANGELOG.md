@@ -10,6 +10,12 @@
 
 - dodgy dev change
 
+## v0.5.1 (2021-11-14)
+
+### Fix
+
+- urgent hot fix on main
+
 ## v0.5.0 (2021-11-14)
 
 ### Feat
