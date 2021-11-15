@@ -1,15 +1,3 @@
-## v0.6.0a1 (2021-11-14)
-
-### Fix
-
-- urgent hotfix on dev
-
-## v0.6.0a0 (2021-11-14)
-
-### Feat
-
-- dodgy dev change
-
 ## v0.5.1 (2021-11-14)
 
 ### Fix
