@@ -15,13 +15,20 @@ jobs:
           go-version: "^1.13.1" # The Go version to download (if necessary) and use.
       - run: |
           go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
-
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: Configure git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git tag --list
-
+      - name: Install commitizen
+        run: |
+          pip install commitizen
+      - name: Test commitizen bump
+        run: |
+          cz bump --dry-run
       - name: Test git-chglog
         run: |
           git-chglog
