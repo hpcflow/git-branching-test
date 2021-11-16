@@ -31,7 +31,7 @@ jobs:
           cz bump
       - name: Test git-chglog
         run: |
-          git-chglog
+          git-chglog --output CHANGELOG.md
       - name: Push changes
         run: |
           git pull
