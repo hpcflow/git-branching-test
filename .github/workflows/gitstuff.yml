@@ -1,0 +1,27 @@
+name: gitstuff
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  gitstuff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # get all history and tags
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "^1.13.1" # The Go version to download (if necessary) and use.
+      - run: |
+          go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
+
+      - name: Configure git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag --list
+
+      - name: Test git-chglog
+        run: |
+          git-chglog
