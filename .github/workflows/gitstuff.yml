@@ -28,7 +28,11 @@ jobs:
           pip install commitizen
       - name: Test commitizen bump
         run: |
-          cz bump --dry-run
+          cz bump
       - name: Test git-chglog
         run: |
           git-chglog
+      - name: Push changes
+        run: |
+          git pull
+          git push --follow-tags --tags
