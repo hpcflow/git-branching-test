@@ -33,6 +33,7 @@ jobs:
       #   run: |
       #     git-chglog --output CHANGELOG.md
       - run: git status
+      - run: git diff main origin/main
 
       # - name: Push changes
       #   run: |
