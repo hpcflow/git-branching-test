@@ -32,7 +32,9 @@ jobs:
       # - name: Test git-chglog
       #   run: |
       #     git-chglog --output CHANGELOG.md
-      - name: Push changes
-        run: |
-          git pull
-          git push --follow-tags --tags
+      - run: git status
+
+      # - name: Push changes
+      #   run: |
+      #     git pull
+      #     git push --follow-tags --tags
