@@ -36,6 +36,8 @@ jobs:
       - run: git status
       - run: git diff main origin/main
       - run: git log -- HEAD..origin/master
+      - run: git fetch
+      - run: git log -p HEAD..FETCH_HEAD
       - run: git pull
 
       # - name: Push changes
