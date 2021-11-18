@@ -37,6 +37,7 @@ jobs:
       - name: Generate CHANGELOG
         run: |
           git-chglog --output CHANGELOG.md
+          git status
 
       - name: Push changes
         run: |
