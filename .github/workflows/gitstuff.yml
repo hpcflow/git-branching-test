@@ -39,6 +39,7 @@ jobs:
           git-chglog --output CHANGELOG.md
           git status
           git add CHANGELOG.md
+          git commit --amend --no-edit
           git status
 
       - name: Push changes
