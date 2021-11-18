@@ -16,10 +16,14 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "generated"
+          git pull
           git push
-      # - uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0 # get all history and tags
+      # - name: Install commitizen
+      #   run: |
+      #     pip install commitizen
+      # - name: Test commitizen bump
+      #   run: |
+      #     cz bump
       # - uses: actions/setup-go@v2
       #   with:
       #     go-version: "^1.13.1" # The Go version to download (if necessary) and use.
@@ -34,12 +38,7 @@ jobs:
       #     git config user.email github-actions@github.com
       #     git config pull.ff only
       #     git tag --list
-      # - name: Install commitizen
-      #   run: |
-      #     pip install commitizen
-      # - name: Test commitizen bump
-      #   run: |
-      #     cz bump
+
       # - name: Test git-chglog
       #   run: |
       #     git-chglog --output CHANGELOG.md
