@@ -29,9 +29,9 @@ jobs:
       - name: Test commitizen bump
         run: |
           cz bump
-      - name: Test git-chglog
-        run: |
-          git-chglog --output CHANGELOG.md
+      # - name: Test git-chglog
+      #   run: |
+      #     git-chglog --output CHANGELOG.md
       - name: Push changes
         run: |
           git pull
