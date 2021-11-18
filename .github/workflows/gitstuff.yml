@@ -38,8 +38,9 @@ jobs:
         run: |
           git-chglog --output CHANGELOG.md
           git status
+          git add CHANGELOG.md
+          git status
 
       - name: Push changes
         run: |
-          git add CHANGELOG.md
           git push && git push --tags
