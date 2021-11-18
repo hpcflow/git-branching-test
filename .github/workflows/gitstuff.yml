@@ -40,4 +40,5 @@ jobs:
 
       - name: Push changes
         run: |
+          git add CHANGELOG.md
           git push && git push --tags

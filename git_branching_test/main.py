@@ -1,7 +1,3 @@
 def hello(name, number=10):
-    """big dev change!!!!
-
-    Another big change.
-
-    """
+    """big dev change!!!!"""
     return f"hello {name}!" * number
