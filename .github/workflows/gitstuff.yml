@@ -8,22 +8,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # get all history and tags
-      - uses: actions/setup-go@v2
-        with:
-          go-version: "^1.13.1" # The Go version to download (if necessary) and use.
       - run: |
-          go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-      - name: Configure git
-        run: |
+          date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git config pull.ff only
-          git tag --list
+          git add .
+          git commit -m "generated"
+          git push
+      # - uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0 # get all history and tags
+      # - uses: actions/setup-go@v2
+      #   with:
+      #     go-version: "^1.13.1" # The Go version to download (if necessary) and use.
+      # - run: |
+      #     go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
+      # - uses: actions/setup-python@v2
+      #   with:
+      #     python-version: 3.9
+      # - name: Configure git
+      #   run: |
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git config pull.ff only
+      #     git tag --list
       # - name: Install commitizen
       #   run: |
       #     pip install commitizen
@@ -33,16 +41,15 @@ jobs:
       # - name: Test git-chglog
       #   run: |
       #     git-chglog --output CHANGELOG.md
-      - run: echo "hello" > "hi.txt"
-      - run: git add hi.txt
-      - run: git commit -m "echo hello"
-      - run: git status
-      - run: git diff main origin/main
-      - run: git log -- HEAD..origin/master
-      - run: git fetch
-      - run: git log -p HEAD..FETCH_HEAD
-      - run: git pull # here is a change.
-
+      # - run: echo "hello" > "hi.txt"
+      # - run: git add hi.txt
+      # - run: git commit -m "echo hello"
+      # - run: git status
+      # - run: git diff main origin/main
+      # - run: git log -- HEAD..origin/master
+      # - run: git fetch
+      # - run: git log -p HEAD..FETCH_HEAD
+      # - run: git pull # here is a change.
 
       # - name: Push changes
       #   run: |
