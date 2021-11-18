@@ -38,7 +38,8 @@ jobs:
       - run: git log -- HEAD..origin/master
       - run: git fetch
       - run: git log -p HEAD..FETCH_HEAD
-      - run: git pull
+      - run: git pull # here is a change.
+
 
       # - name: Push changes
       #   run: |
