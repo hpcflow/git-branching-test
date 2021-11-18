@@ -24,15 +24,17 @@ jobs:
           git config user.email github-actions@github.com
           git config pull.ff only
           git tag --list
-      - name: Install commitizen
-        run: |
-          pip install commitizen
-      - name: Test commitizen bump
-        run: |
-          cz bump
+      # - name: Install commitizen
+      #   run: |
+      #     pip install commitizen
+      # - name: Test commitizen bump
+      #   run: |
+      #     cz bump
       # - name: Test git-chglog
       #   run: |
       #     git-chglog --output CHANGELOG.md
+      - run: echo "hello" > "hi.txt"
+      - run: git commit -am "echo hello"
       - run: git status
       - run: git diff main origin/main
       - run: git log -- HEAD..origin/master
