@@ -7,47 +7,45 @@ jobs:
   gitstuff:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/setup-python@v2
-      #   with:
-      #     python-version: 3.9
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-      # - uses: actions/setup-go@v2
-      #   with:
-      #     go-version: "^1.13.1" # The Go version to download (if necessary) and use.
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "^1.13.1" # The Go version to down'load (if necessary) and use.
 
-      # - run: |
-      #     go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
+      - run: |
+          go get -u github.com/git-chglog/git-chglog/cmd/git-chglog
 
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # get all history and tags
 
-      - run: git tag
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
-      # - run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
+      - name: Install commitizen
+        run: |
+          pip install commitizen
 
-      # - name: Install commitizen
-      #   run: |
-      #     pip install commitizen
+      - name: Get current tag
+        run: |
+          CUR_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
 
-      # - name: Get current tag
-      #   run: |
-      #     CUR_TAG=$(git describe --tags --abbrev=0)
-      #     echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
+      - name: Commitizen bump
+        run: |
+          cz bump
 
-      # - name: Commitizen bump
-      #   run: |
-      #     cz bump
+      - name: Get new tag
+        run: |
+          NEW_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
 
-      # - name: Get new tag
-      #   run: |
-      #     NEW_TAG=$(git describe --tags --abbrev=0)
-      #     echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
-
-      # - name: Test tags
-      #   run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
+      - name: Test tags
+        run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
 
       # - name: Generate incremental CHANGELOG for GitHub release
       #   run: |
