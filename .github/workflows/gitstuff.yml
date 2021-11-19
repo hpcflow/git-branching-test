@@ -47,18 +47,19 @@ jobs:
       - name: Test tags
         run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
 
-      # - name: Generate incremental CHANGELOG for GitHub release
-      #   run: |
-      #     git-chglog --output CHANGELOG_increment.md
+      - name: Generate incremental CHANGELOG for GitHub release
+        run: |
+          git-chglog ${{ env.cur_tag }}..${{ env.new_tag }} --output CHANGELOG_increment.md
+          cat CHANGELOG_increment.md
 
-      # - name: Generate CHANGELOG
-      #   run: |
-      #     git-chglog --output CHANGELOG.md
-      #     git status
-      #     git add CHANGELOG.md
-      #     git commit --amend --no-edit
-      #     git status
+      - name: Generate CHANGELOG
+        run: |
+          git-chglog --output CHANGELOG.md
+          git status
+          git add CHANGELOG.md
+          git commit --amend --no-edit
+          git status
 
-      # - name: Push changes
-      #   run: |
-      #     git push && git push --tags
+      - name: Push changes
+        run: |
+          git push && git push --tags
