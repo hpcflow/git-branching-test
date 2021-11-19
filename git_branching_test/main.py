@@ -5,5 +5,6 @@ def hello(name, number=10):
     sd
     s
     asd
-    sd"""
+    sd
+    """
     return f"hello {name}!" * number
