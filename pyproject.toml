@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "git_branching_test"
-version = "0.12.0"
+version = "0.13.0"
 description = "Test of CI and git branching model."
 authors = ["aplowman <adam.jp@live.co.uk>"]
 license = "MIT"
@@ -24,7 +24,7 @@ target-version = ["py37", "py38"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.12.0"
+version = "0.13.0"
 tag_format = "v$version"
 version_files = [ 
     "pyproject.toml:version"
