@@ -68,4 +68,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG_increment.txt
-          tag: ${{ env.new_tag }}
+          tag_name: ${{ env.new_tag }}
