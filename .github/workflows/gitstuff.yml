@@ -61,11 +61,14 @@ jobs:
 
       - name: Generate incremental CHANGELOG for GitHub release
         run: |
-          git-chglog --output CHANGELOG_increment.md ${{ env.cur_tag }}..${{ env.new_tag }}
+          git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
           cat CHANGELOG_increment.md
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        # uses: softprops/action-gh-release@v1
+        # with:
+        #   body_path: CHANGELOG_increment.md
+        #   tag_name: ${{ env.new_tag }}
+      - uses: ncipollo/release-action@v1
         with:
-          body_path: CHANGELOG_increment.md
-          tag_name: ${{ env.new_tag }}
+          bodyFile: CHANGELOG_increment.md
