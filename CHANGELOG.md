@@ -1,4 +1,16 @@
 
+<a name="v0.15.0"></a>
+## [v0.15.0](https://github.com/hpcflow/git-branching-test/compare/v0.14.0...v0.15.0) (2021-11-19)
+
+### Features
+
+* hohoho
+* hohoho
+* hohoho
+* hohoho
+* hohoho
+
+
 <a name="v0.14.0"></a>
 ## [v0.14.0](https://github.com/hpcflow/git-branching-test/compare/v0.13.0...v0.14.0) (2021-11-19)
 
