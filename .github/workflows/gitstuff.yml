@@ -33,7 +33,7 @@ jobs:
       - name: Get current tag
         run: |
           CUR_TAG=$(git describe --tags --abbrev=0)
-          echo "cur_tag=CUR_TAG" >> $GITHUB_ENV
+          echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
 
       - name: Commitizen bump
         run: |
@@ -42,7 +42,7 @@ jobs:
       - name: Get new tag
         run: |
           NEW_TAG=$(git describe --tags --abbrev=0)
-          echo "new_tag=NEW_TAG" >> $GITHUB_ENV
+          echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Test tags
         run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
