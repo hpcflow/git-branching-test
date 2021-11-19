@@ -30,9 +30,22 @@ jobs:
         run: |
           pip install commitizen
 
+      - name: Get current tag
+        run: CUR_TAG=$(git describe --tags --abbrev=0)
+
       - name: Commitizen bump
         run: |
           cz bump
+
+      - name: Get new tag
+        run: NEW_TAG=$(git describe --tags --abbrev=0)
+
+      - name: Test tags
+        run: echo $CUR_TAG..$NEW_TAG
+
+      # - name: Generate incremental CHANGELOG for GitHub release
+      #   run: |
+      #     git-chglog --output CHANGELOG_increment.md
 
       - name: Generate CHANGELOG
         run: |
