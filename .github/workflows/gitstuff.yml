@@ -47,11 +47,6 @@ jobs:
       - name: Test tags
         run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
 
-      - name: Generate incremental CHANGELOG for GitHub release
-        run: |
-          git-chglog --output ${{ github.workspace }}-CHANGELOG_increment.md ${{ env.cur_tag }}..${{ env.new_tag }}
-          cat CHANGELOG_increment.md
-
       - name: Generate CHANGELOG
         run: |
           git-chglog --output CHANGELOG.md
@@ -64,8 +59,13 @@ jobs:
         run: |
           git push && git push --tags
 
+      - name: Generate incremental CHANGELOG for GitHub release
+        run: |
+          git-chglog --output CHANGELOG_increment.md ${{ env.cur_tag }}..${{ env.new_tag }}
+          cat CHANGELOG_increment.md
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: ${{ github.workspace }}-CHANGELOG_increment.md
+          body_path: CHANGELOG_increment.md
           tag_name: ${{ env.new_tag }}
