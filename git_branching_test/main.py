@@ -4,5 +4,6 @@ def hello(name, number=10):
     sda#
     sd
     s
-    asd"""
+    asd
+    sd"""
     return f"hello {name}!" * number
