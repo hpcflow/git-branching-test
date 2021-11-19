@@ -57,7 +57,7 @@ jobs:
 
       - name: Push changes
         run: |
-          git push && git push --tags
+          git push origin/main && git push --tags origin/main
 
       - name: Generate incremental CHANGELOG for GitHub release
         run: |
@@ -72,3 +72,4 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           bodyFile: CHANGELOG_increment.md
+          tag: ${{ env.new_tag }}
