@@ -1,4 +1,13 @@
 
+<a name="v0.41.0"></a>
+## [v0.41.0](https://github.com/hpcflow/git-branching-test/compare/v0.40.0...v0.41.0) - 2021.11.20
+
+### ✨ Features
+
+* fix it
+* kasdjsd
+
+
 <a name="v0.40.0"></a>
 ## [v0.40.0](https://github.com/hpcflow/git-branching-test/compare/v0.39.0...v0.40.0) - 2021.11.20
 
