@@ -1,4 +1,4 @@
-name: gitstuff
+name: CI-full
 on:
   workflow_dispatch:
   push:
@@ -136,9 +136,6 @@ jobs:
         id: download_executables
         with:
           path: release-artifacts
-
-      - name: "Echo download path"
-        run: echo ${{steps.download_executables.outputs.download-path}}
 
       - name: Display structure of downloaded files
         run: ls -R
