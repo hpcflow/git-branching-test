@@ -28,7 +28,7 @@ version = "0.40.0"
 tag_format = "v$version"
 version_files = [ 
     "pyproject.toml:version",
-    "__init__.py"
+    "git_branching_test/__init__.py"
 ]
 
 [build-system]
