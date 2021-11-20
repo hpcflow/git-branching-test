@@ -61,7 +61,7 @@ jobs:
 
       - name: Generate incremental CHANGELOG for GitHub release body
         run: |
-          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }} --template RELEASE.tpl.md
+          ./git-chglog --template RELEASE.tpl.md --output CHANGELOG_increment.md ${{ env.new_tag }}
           cat CHANGELOG_increment.md
 
       - name: Release
