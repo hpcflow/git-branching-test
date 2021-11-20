@@ -74,6 +74,14 @@ jobs:
           path: CHANGELOG_increment.md
 
       - run: python -c "from git_branching_test import __version__; print(__version__);"
+        # version correctly bumped at this point.
+
+  test-package-version:
+    needs: bump-version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: python -c "from git_branching_test import __version__; print(__version__);"
 
   # build-executables:
   #   needs: bump-version
