@@ -59,9 +59,9 @@ jobs:
         run: |
           git push && git push origin ${{ env.new_tag }}
 
-      - name: Generate incremental CHANGELOG for GitHub release
+      - name: Generate incremental CHANGELOG for GitHub release body
         run: |
-          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
+          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }} --template RELEASE.tpl.md
           cat CHANGELOG_increment.md
 
       - name: Release
