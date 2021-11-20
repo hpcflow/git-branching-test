@@ -148,5 +148,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: release-artifacts/CHANGELOG_increment/CHANGELOG_increment.md
-          tag_name: ${{ needs.bump.outputs.new_tag_name }}
+          tag_name: ${{ needs.bump-version.outputs.new_tag_name }}
           files: release-artifacts/git_branching_test-*/*
