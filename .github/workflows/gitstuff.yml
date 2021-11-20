@@ -6,6 +6,8 @@ on:
 jobs:
   bump:
     runs-on: ubuntu-latest
+    outputs:
+      new_tag_name: ${{ steps.get_new_tag.outputs.new_tag_name }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -38,9 +40,11 @@ jobs:
           cz bump
 
       - name: Get new tag
+        id: get_new_tag
         run: |
           NEW_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
           echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
+          echo "::set-output name=new_tag_name::$NEW_TAG"
 
       - name: Test tags
         run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
@@ -128,9 +132,18 @@ jobs:
     steps:
       - run: mkdir release-artifacts
 
-      - uses: actions/download-artifact@v2 # download CHANGELOG_increment.md and all executables
+      - uses: actions/download-artifact@v2
+        with:
+          name: CHANGELOG_increment
+          path: CHANGELOG_increment.md
+
+      - uses: actions/download-artifact@v2
+        id: download_executables
         with:
           path: release-artifacts
+
+      - name: "Echo download path"
+        run: echo ${{steps.download_executables.outputs.download-path}}
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -140,4 +153,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG_increment.md
-          tag_name: ${{ env.new_tag }}
+          tag_name: ${{ needs.bump.outputs.new_tag_name }}
