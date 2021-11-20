@@ -83,8 +83,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # get all history and tags
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - run: python -c "from git_branching_test import __version__; print(__version__);"
-        # version incorrect (not bumped) at this point.
+        # version incorrect (not bumped) at this point (even though bumped tag exists!)
 
   # build-executables:
   #   needs: bump-version
