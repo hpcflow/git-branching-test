@@ -133,11 +133,6 @@ jobs:
       - run: mkdir release-artifacts
 
       - uses: actions/download-artifact@v2
-        with:
-          name: CHANGELOG_increment
-          path: CHANGELOG_increment.md
-
-      - uses: actions/download-artifact@v2
         id: download_executables
         with:
           path: release-artifacts
@@ -152,5 +147,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG_increment.md
+          body_path: release-artifacts/CHANGELOG_increment/CHANGELOG_increment.md
           tag_name: ${{ needs.bump.outputs.new_tag_name }}
