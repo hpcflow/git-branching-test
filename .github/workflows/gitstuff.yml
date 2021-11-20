@@ -23,9 +23,6 @@ jobs:
         run: |
           wget https://github.com/git-chglog/git-chglog/releases/download/v0.15.0/git-chglog_0.15.0_linux_amd64.tar.gz
           tar -zvxf git-chglog_0.15.0_linux_amd64.tar.gz
-          chmod +x git-chglog
-
-      - run: ls -la
 
       - name: Install commitizen
         run: |
@@ -50,7 +47,7 @@ jobs:
 
       - name: Generate CHANGELOG
         run: |
-          ./git-chglog --output CHANGELOG.md
+          git-chglog --output CHANGELOG.md
           git status
           git add CHANGELOG.md
           git tag -d ${{ env.new_tag }}
@@ -64,7 +61,7 @@ jobs:
 
       - name: Generate incremental CHANGELOG for GitHub release
         run: |
-          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
+          git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
           cat CHANGELOG_increment.md
 
       - name: Release
