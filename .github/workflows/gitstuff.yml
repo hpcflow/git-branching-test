@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
 jobs:
-  bump:
+  bump-version:
     runs-on: ubuntu-latest
     outputs:
       new_tag_name: ${{ steps.get_new_tag.outputs.new_tag_name }}
@@ -74,7 +74,7 @@ jobs:
           path: CHANGELOG_increment.md
 
   build-executables:
-    needs: bump
+    needs: bump-version
     strategy:
       fail-fast: false
       matrix:
@@ -126,8 +126,8 @@ jobs:
           name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
           path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
 
-  release:
-    needs: [bump, build-executables]
+  release-github:
+    needs: [bump-version, build-executables]
     runs-on: ubuntu-latest
     steps:
       - run: mkdir release-artifacts
@@ -149,4 +149,4 @@ jobs:
         with:
           body_path: release-artifacts/CHANGELOG_increment/CHANGELOG_increment.md
           tag_name: ${{ needs.bump.outputs.new_tag_name }}
-          files: git_branching_test-*/*
+          files: release-artifacts/git_branching_test-*/*
