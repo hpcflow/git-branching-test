@@ -15,59 +15,60 @@ jobs:
         run: |
           wget https://github.com/git-chglog/git-chglog/releases/download/v0.15.0/git-chglog_0.15.0_linux_amd64.tar.gz
           tar -zvxf git-chglog_0.15.0_linux_amd64.tar.gz
+          chmod +x git-chglog
 
       - run: ls -la
 
-      # - uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0 # get all history and tags
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # get all history and tags
 
-      # - run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
-      # - name: Install commitizen
-      #   run: |
-      #     pip install commitizen
+      - name: Install commitizen
+        run: |
+          pip install commitizen
 
-      # - name: Get current tag
-      #   run: |
-      #     CUR_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-      #     echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
+      - name: Get current tag
+        run: |
+          CUR_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
 
-      # - name: Commitizen bump # Bump version strings and add a new tag; commit
-      #   run: |
-      #     cz bump
+      - name: Commitizen bump # Bump version strings and add a new tag; commit
+        run: |
+          cz bump
 
-      # - name: Get new tag
-      #   run: |
-      #     NEW_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-      #     echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
+      - name: Get new tag
+        run: |
+          NEW_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
 
-      # - name: Test tags
-      #   run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
+      - name: Test tags
+        run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
 
-      # - name: Generate CHANGELOG
-      #   run: |
-      #     ./git-chglog --output CHANGELOG.md
-      #     git status
-      #     git add CHANGELOG.md
-      #     git tag -d ${{ env.new_tag }}
-      #     git commit --amend --no-edit
-      #     git tag ${{ env.new_tag }}
-      #     git status
+      - name: Generate CHANGELOG
+        run: |
+          ./git-chglog --output CHANGELOG.md
+          git status
+          git add CHANGELOG.md
+          git tag -d ${{ env.new_tag }}
+          git commit --amend --no-edit
+          git tag ${{ env.new_tag }}
+          git status
 
-      # - name: Push changes
-      #   run: |
-      #     git push && git push origin ${{ env.new_tag }}
+      - name: Push changes
+        run: |
+          git push && git push origin ${{ env.new_tag }}
 
-      # - name: Generate incremental CHANGELOG for GitHub release
-      #   run: |
-      #     ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
-      #     cat CHANGELOG_increment.md
+      - name: Generate incremental CHANGELOG for GitHub release
+        run: |
+          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
+          cat CHANGELOG_increment.md
 
-      # - name: Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     body_path: CHANGELOG_increment.md
-      #     tag_name: ${{ env.new_tag }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: CHANGELOG_increment.md
+          tag_name: ${{ env.new_tag }}
