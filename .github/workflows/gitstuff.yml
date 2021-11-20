@@ -149,3 +149,4 @@ jobs:
         with:
           body_path: release-artifacts/CHANGELOG_increment/CHANGELOG_increment.md
           tag_name: ${{ needs.bump.outputs.new_tag_name }}
+          files: git_branching_test-*/*
