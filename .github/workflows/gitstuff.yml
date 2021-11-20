@@ -36,8 +36,6 @@ jobs:
           echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
 
       - name: Commitizen bump # Bump version strings and add a new tag; commit
-        # TODO: problem is using `git commit --amend` further down when there is already a tag?
-        # TODO: maybe delete the tag and recreate it after ammend the commit?
         run: |
           cz bump
 
@@ -69,11 +67,7 @@ jobs:
           cat CHANGELOG_increment.md
 
       - name: Release
-        # uses: softprops/action-gh-release@v1
-        # with:
-        #   body_path: CHANGELOG_increment.md
-        #   tag_name: ${{ env.new_tag }}
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
         with:
-          bodyFile: CHANGELOG_increment.md
-          tag: ${{ env.new_tag }}
+          body_path: CHANGELOG_increment.md
+          tag_name: ${{ env.new_tag }}
