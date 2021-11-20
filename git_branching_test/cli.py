@@ -13,7 +13,7 @@ def cli():
 @cli.command()
 @click.argument("name")
 def hello(name):
-    main.hello(name)
+    print(main.hello(name))
 
 
 if __name__ == "__main__":

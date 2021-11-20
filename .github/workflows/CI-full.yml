@@ -126,6 +126,9 @@ jobs:
           name: git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
           path: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
 
+      - name: Basic executable test
+        run: dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }} --version
+
   release-github:
     needs: [bump-version, build-executables]
     runs-on: ubuntu-latest
