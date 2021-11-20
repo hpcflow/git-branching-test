@@ -81,7 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # get all history and tags
       - run: python -c "from git_branching_test import __version__; print(__version__);"
+        # version incorrect (not bumped) at this point.
 
   # build-executables:
   #   needs: bump-version
