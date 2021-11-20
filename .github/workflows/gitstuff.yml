@@ -47,7 +47,7 @@ jobs:
 
       - name: Generate CHANGELOG
         run: |
-          git-chglog --output CHANGELOG.md
+          ./git-chglog --output CHANGELOG.md
           git status
           git add CHANGELOG.md
           git tag -d ${{ env.new_tag }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: Generate incremental CHANGELOG for GitHub release
         run: |
-          git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
+          ./git-chglog --output CHANGELOG_increment.md ${{ env.new_tag }}
           cat CHANGELOG_increment.md
 
       - name: Release
