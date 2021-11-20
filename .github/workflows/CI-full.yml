@@ -103,11 +103,11 @@ jobs:
         run: |
           poetry config virtualenvs.in-project true
 
-      - name: Cache the virtualenv
-        uses: actions/cache@v2
-        with:
-          path: ./.venv
-          key: venv-${{ hashFiles('**/poetry.lock') }}
+      # - name: Cache the virtualenv
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ./.venv
+      #     key: venv-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         run: |
