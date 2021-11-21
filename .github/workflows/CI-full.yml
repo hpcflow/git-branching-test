@@ -73,6 +73,8 @@ jobs:
           name: CHANGELOG_increment
           path: CHANGELOG_increment.md
 
+      - run: cat git_branching_test/__init__.py
+
       - run: python -c "from git_branching_test import __version__; print(__version__);"
         # version correctly bumped at this point.
 
@@ -86,6 +88,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
+      - run: cat git_branching_test/__init__.py
       - run: python -c "from git_branching_test import __version__; print(__version__);"
         # version incorrect (not bumped) at this point (even though bumped tag exists!)
 
