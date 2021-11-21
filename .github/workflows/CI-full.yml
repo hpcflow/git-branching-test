@@ -114,15 +114,15 @@ jobs:
         run: poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test-${{ needs.bump-version.outputs.new_tag_name }} --onefile
 
       - name: Rename executable for ${{matrix.executable_os}}
-        run: mv dist/git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.executable_os }}${{ matrix.executable_ext }}
+        run: mv dist/git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}${{ matrix.executable_ext }} dist/git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}-${{ matrix.executable_os }}${{ matrix.executable_ext }}
 
       - uses: actions/upload-artifact@v2
         with:
-          name: git_branching_test-${{ matrix.executable_os }}${{ matrix.executable_ext }}
-          path: dist/git_branching_test-${{ matrix.executable_os }}${{ matrix.executable_ext }}
+          name: git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}-${{ matrix.executable_os }}${{ matrix.executable_ext }}
+          path: dist/git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}-${{ matrix.executable_os }}${{ matrix.executable_ext }}
 
       - name: Basic executable test
-        run: dist/git_branching_test-${{ matrix.executable_os }}${{ matrix.executable_ext }} --version
+        run: dist/git_branching_test-${{ needs.bump-version.outputs.new_tag_name }}-${{ matrix.executable_os }}${{ matrix.executable_ext }} --version
 
   release-github-PyPI:
     needs: [bump-version, build-executables]
