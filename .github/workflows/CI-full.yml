@@ -84,12 +84,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # get all history and tags
+          ref: main # otherwise the ref when the workflow started will be used (missing commit from above)
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - run: cat git_branching_test/__init__.py
-      - run: git pull
       - run: python -c "from git_branching_test import __version__; print(__version__);"
         # version incorrect (not bumped) at this point (even though bumped tag exists!)
 
