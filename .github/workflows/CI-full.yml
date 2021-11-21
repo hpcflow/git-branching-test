@@ -5,7 +5,7 @@ on:
     branches: [main]
 jobs:
   bump-version:
-    if: | # only release from develop (as pre-release) or main
+    if: | # only release from develop (as pre-release) or main (as stable)
       github.ref == 'refs/heads/develop' ||
       github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
