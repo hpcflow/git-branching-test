@@ -125,6 +125,10 @@ jobs:
     needs: [bump-version, build-executables]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }} # otherwise we get the ref when the workflow started (missing above commit)
+
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
