@@ -5,6 +5,9 @@ on:
     branches: [main]
 jobs:
   bump-version:
+    if: | # only release from develop (as pre-release) or main
+      github.ref == 'refs/heads/develop' ||
+      github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       new_tag_name: ${{ steps.get_new_tag.outputs.new_tag_name }}
@@ -27,8 +30,7 @@ jobs:
           tar --extract --file git-chglog_0.15.0_linux_amd64.tar.gz git-chglog
 
       - name: Install commitizen
-        run: |
-          pip install commitizen
+        run: pip install commitizen
 
       - name: Get current tag
         run: |
@@ -36,8 +38,7 @@ jobs:
           echo "cur_tag=$CUR_TAG" >> $GITHUB_ENV
 
       - name: Commitizen bump # Bump version strings and add a new tag; commit
-        run: |
-          cz bump
+        run: cz bump
 
       - name: Get new tag
         id: get_new_tag
@@ -46,22 +47,16 @@ jobs:
           echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
           echo "::set-output name=new_tag_name::$NEW_TAG"
 
-      - name: Test tags
-        run: echo "${{ env.cur_tag }}..${{ env.new_tag }}"
-
       - name: Generate CHANGELOG
         run: |
           ./git-chglog --output CHANGELOG.md
-          git status
           git add CHANGELOG.md
           git tag -d ${{ env.new_tag }}
           git commit --amend --no-edit
           git tag ${{ env.new_tag }}
-          git status
 
       - name: Push changes
-        run: |
-          git push && git push origin ${{ env.new_tag }}
+        run: git push && git push origin ${{ env.new_tag }}
 
       - name: Generate incremental CHANGELOG for GitHub release body
         run: |
@@ -91,19 +86,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: main # otherwise we get the ref when the workflow started (missing above commit)
+          ref: ${{ github.ref }} # otherwise we get the ref when the workflow started (missing above commit)
 
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
 
       - name: Install poetry
-        run: |
-          python -m pip install poetry==1.1.11
+        run: python -m pip install poetry==1.1.11
 
       - name: Configure poetry
-        run: |
-          poetry config virtualenvs.in-project true
+        run: poetry config virtualenvs.in-project true
 
       - name: Cache the virtualenv
         uses: actions/cache@v2
@@ -112,16 +105,13 @@ jobs:
           key: venv-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: |
-          poetry install
+        run: poetry install
 
       - name: Build with pyinstaller for ${{matrix.os}}
-        run: |
-          poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
+        run: poetry run pyinstaller git_branching_test/cli.py --name=git_branching_test --onefile
 
       - name: Rename executable for ${{matrix.os}}
-        run: |
-          mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
+        run: mv dist/git_branching_test${{ matrix.executable_ext }} dist/git_branching_test-${{ matrix.os }}${{ matrix.executable_ext }}
 
       - uses: actions/upload-artifact@v2
         with:
@@ -141,10 +131,6 @@ jobs:
         id: download_executables
         with:
           path: release-artifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: release-artifacts
 
       - name: Release
         uses: softprops/action-gh-release@v1
